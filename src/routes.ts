@@ -1,6 +1,7 @@
 import { RouterModule, Routes } from 'nest-router';
 import { SlackModule } from './slack/slack.module';
 import { Module } from '@nestjs/common';
+import { AppModule } from './app.module';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
         module: SlackModule,
       },
     ],
+  },
+  {
+    path: '/',
+    module: AppModule,
   },
 ];
 

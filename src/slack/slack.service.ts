@@ -11,6 +11,9 @@ export class SlackService {
   private readonly token: string;
   private readonly rantChannelId: string;
   private readonly ahChannelId: string;
+  private readonly oauthURL: string;
+  private clientId: string;
+  private clientSecret: string;
 
   constructor(private readonly _http: HttpService,
               private readonly _messageService: MessageService,
@@ -18,6 +21,7 @@ export class SlackService {
     this.token = process.env.SLACK_TOKEN || _configService.get('SLACK_TOKEN');
     this.rantChannelId = process.env.SLACK_RANT_CHANNEL || _configService.get('SLACK_RANT_CHANNEL');
     this.ahChannelId = process.env.SLACK_AH_CHANNEL || _configService.get('SLACK_AH_CHANNEL');
+    this.oauthURL = process.env.SLACK_OAUTH_URL || _configService.get('SLACK_OAUTH_URL');
   }
 
   async handleRant(actionPayload: SlashCommandPayload): Promise<any> {
@@ -31,6 +35,14 @@ export class SlackService {
       message = this.createMessage(text, this.rantChannelId, [], true);
     }
     await this.sendBotMessage(message);
+    return;
+  }
+
+  async handleOAuth(code: string): Promise<any> {
+    this.clientId = process.env.SLACK_CLIENT_ID || this._configService.get('SLACK_CLIENT_ID');
+    this.clientSecret = process.env.SLACK_CLIENT_SECRET || this._configService.get('SLACK_CLIENT_SECRET');
+    const bodyString: string = `client_id=${this.clientId}&client_secret=${this.clientSecret}&code=${code}`;
+    await this._http.post(this.oauthURL, bodyString, { headers: this.getHeaders(false) }).toPromise();
     return;
   }
 
@@ -80,9 +92,9 @@ export class SlackService {
     }];
   }
 
-  private getHeaders() {
+  private getHeaders(json: boolean = true) {
     return {
-      'Content-type': 'application/json',
+      'Content-type': json ? 'application/json' : 'application/x-www-form-urlencoded',
       'Authorization': `Bearer ${this.token}`,
     };
   }

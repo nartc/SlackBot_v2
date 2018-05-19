@@ -1,7 +1,9 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Response } from '@nestjs/common';
 import { SlashCommandPayload } from './models/slack.model';
 import { SlackService } from './slack.service';
 import { ConfigService } from '../shared/services/config.service';
+import { Response as ExpressResponse } from 'express';
+import { join } from 'path';
 
 @Controller()
 export class SlackController {
@@ -18,5 +20,14 @@ export class SlackController {
     }
 
     return await this._slackService.handleRant(actionPayload);
+  }
+
+  @Get('oauth')
+  async oauthHandler(@Query() code: string, @Query() error: string, @Response() res: ExpressResponse): Promise<any> {
+    if (error) {
+      return res.sendFile(join(__dirname, '../../public/index.html'));
+    }
+
+    return await this._slackService.handleOAuth(code);
   }
 }
