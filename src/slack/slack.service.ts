@@ -41,8 +41,8 @@ export class SlackService {
   async handleOAuth(code: string): Promise<any> {
     this.clientId = process.env.SLACK_CLIENT_ID || this._configService.get('SLACK_CLIENT_ID');
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || this._configService.get('SLACK_CLIENT_SECRET');
-    const bodyString: string = `client_id=${this.clientId}&client_secret=${this.clientSecret}&code=${code}`;
-    await this._http.post(this.oauthURL, bodyString, { headers: this.getHeaders(false) }).toPromise();
+    const slackOAuthURI: string = `${this.oauthURL}?client_id=${this.clientId}&client_secret=${this.clientSecret}&code=${code}`;
+    await this._http.get(slackOAuthURI, { headers: this.getHeaders(false) }).toPromise();
     return;
   }
 
