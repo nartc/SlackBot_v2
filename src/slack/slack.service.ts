@@ -25,32 +25,28 @@ export class SlackService {
   }
 
   async handleRant(actionPayload: SlashCommandPayload): Promise<any> {
-    const { text, channel_id } = actionPayload;
+    const { text, channel_id, user_name } = actionPayload;
     let message: Message;
     if (!text || text.trim() === null) {
       const messageText: string = 'Bi*ch! What the hell are you ranting on?!';
       const attachments = this.createAttachments('danger', 'rant_invoker', 'ERROR!!');
       message = this.createMessage(messageText, channel_id, attachments);
     } else {
-      message = this.createMessage(text, this.rantChannelId, [], true);
+      message = this.createMessage(text, this.rantChannelId, [], false, user_name);
     }
     await this.sendBotMessage(message);
     return;
   }
 
   async handleOAuth(code: string): Promise<any> {
-    console.log('in handleOauth');
-    console.log(code);
     this.clientId = process.env.SLACK_CLIENT_ID || this._configService.get('SLACK_CLIENT_ID');
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || this._configService.get('SLACK_CLIENT_SECRET');
     const slackOAuthURI: string = `${this.oauthURL}?client_id=${this.clientId}&client_secret=${this.clientSecret}&code=${code}`;
     this._http.get(slackOAuthURI, { headers: this.getHeaders(false) }).toPromise()
       .then((value) => {
-        console.log(value);
         return;
       })
       .catch((error) => {
-        console.log(error);
         return;
       });
   }
@@ -79,7 +75,8 @@ export class SlackService {
   private createMessage(text: string,
                         channelId: string,
                         attachments?: MessageAttachment[],
-                        asUser: boolean = false): Message {
+                        asUser: boolean = false,
+                        username?: string): Message {
 
     return {
       token: this.token,
@@ -87,6 +84,7 @@ export class SlackService {
       channel: channelId,
       as_user: asUser,
       attachments,
+      username,
       replace_original: !asUser,
     };
   }
