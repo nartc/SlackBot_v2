@@ -15,9 +15,9 @@ export class SlackService {
   constructor(private readonly _http: HttpService,
               private readonly _messageService: MessageService,
               private readonly _configService: ConfigService) {
-    this.token = _configService.get('SLACK_TOKEN');
-    this.rantChannelId = _configService.get('SLACK_RANT_CHANNEL');
-    this.ahChannelId = _configService.get('SLACK_AH_CHANNEL');
+    this.token = process.env.SLACK_TOKEN || _configService.get('SLACK_TOKEN');
+    this.rantChannelId = process.env.SLACK_RANT_CHANNEL || _configService.get('SLACK_RANT_CHANNEL');
+    this.ahChannelId = process.env.SLACK_AH_CHANNEL || _configService.get('SLACK_AH_CHANNEL');
   }
 
   async handleRant(actionPayload: SlashCommandPayload): Promise<any> {
@@ -35,7 +35,7 @@ export class SlackService {
   }
 
   private async sendBotMessage(message: Message): Promise<boolean> {
-    const postMessageUrl: string = this._configService.get('SLACK_POST_MESSAGE_URL');
+    const postMessageUrl: string = process.env.SLACK_POST_MESSAGE_URL || this._configService.get('SLACK_POST_MESSAGE_URL');
     return new Promise<boolean>((resolve => {
       this._http.post<SuccessResponse | ErrorResponse>(postMessageUrl, message, { headers: this.getHeaders() })
         .toPromise()
