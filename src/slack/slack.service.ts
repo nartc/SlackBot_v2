@@ -39,11 +39,20 @@ export class SlackService {
   }
 
   async handleOAuth(code: string): Promise<any> {
+    console.log('in handleOauth');
+    console.log(code);
     this.clientId = process.env.SLACK_CLIENT_ID || this._configService.get('SLACK_CLIENT_ID');
     this.clientSecret = process.env.SLACK_CLIENT_SECRET || this._configService.get('SLACK_CLIENT_SECRET');
     const slackOAuthURI: string = `${this.oauthURL}?client_id=${this.clientId}&client_secret=${this.clientSecret}&code=${code}`;
-    await this._http.get(slackOAuthURI, { headers: this.getHeaders(false) }).toPromise();
-    return;
+    this._http.get(slackOAuthURI, { headers: this.getHeaders(false) }).toPromise()
+      .then((value) => {
+        console.log(value);
+        return;
+      })
+      .catch((error) => {
+        console.log(error);
+        return;
+      });
   }
 
   private async sendBotMessage(message: Message): Promise<boolean> {
@@ -93,9 +102,16 @@ export class SlackService {
   }
 
   private getHeaders(json: boolean = true) {
-    return {
-      'Content-type': json ? 'application/json' : 'application/x-www-form-urlencoded',
-      'Authorization': `Bearer ${this.token}`,
-    };
+    const headers = {};
+
+
+    if (json) {
+      headers['Content-Type'] = 'application/json';
+      headers['Authorization'] = `Bearer ${this.token}`;
+    } else {
+      headers['Content-Type'] = 'application/x-www-form-urlencoded';
+    }
+
+    return headers;
   }
 }
