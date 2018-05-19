@@ -6,7 +6,10 @@ import { readFileSync } from 'fs';
 export class ConfigService {
   private readonly envConfig: { [prop: string]: string };
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
 
   // static connectionString: string;
@@ -15,6 +18,9 @@ export class ConfigService {
     this.envConfig = parse(readFileSync(filePath));
     // ConfigService.connectionString = this.get('MONGO_URI');
 =======
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   static connectionString: string;
 
@@ -22,6 +28,10 @@ export class ConfigService {
     this.envConfig = parse(readFileSync(filePath));
     ConfigService.connectionString = this.get('MONGO_URI');
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+>>>>>>> 2fd3d22... intial
+>>>>>>> Stashed changes
 =======
 >>>>>>> 2fd3d22... intial
 >>>>>>> Stashed changes

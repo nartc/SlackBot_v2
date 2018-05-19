@@ -15,8 +15,11 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     "webpack": "webpack --config webpack.config.js"
 =======
+=======
+>>>>>>> Stashed changes
 <<<<<<< HEAD
     "webpack": "webpack --config webpack.config.js",
     "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev --dev",
@@ -24,6 +27,9 @@
 =======
     "webpack": "webpack --config webpack.config.js"
 >>>>>>> 2fd3d22... intial
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
   },
   "dependencies": {
