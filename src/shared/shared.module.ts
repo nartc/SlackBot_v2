@@ -8,7 +8,7 @@ const environmentHosting: string = process.env.NODE_ENV || 'development';
   providers: [
     {
       provide: ConfigService,
-      useValue: new ConfigService(`development.env`),
+      useValue: new ConfigService(`${environmentHosting}.env`),
     },
   ],
   exports: [ConfigService],
