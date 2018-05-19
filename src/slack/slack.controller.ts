@@ -24,7 +24,10 @@ export class SlackController {
 
   @Get('oauth')
   async oauthHandler(@Query() code: string, @Query() error: string, @Response() res: ExpressResponse): Promise<any> {
+    console.log(code);
+    console.log(error);
     if (error) {
+      console.log('in error');
       return res.sendFile(join(__dirname, '../../public/index.html'));
     }
 
