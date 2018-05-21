@@ -14,6 +14,7 @@ export class SlackController {
 
   @Post('rant')
   async rantActionHandler(@Body() actionPayload: SlashCommandPayload): Promise<any> {
+    console.log('in controller');
     const validateToken: string = process.env.SLACK_VERIFICATION_TOKEN || this._configService.get('SLACK_VERIFICATION_TOKEN');
     if (actionPayload.token.trim() !== validateToken.trim()) {
       throw new HttpException('Request not validated', HttpStatus.BAD_REQUEST);
