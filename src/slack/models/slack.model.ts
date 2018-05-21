@@ -184,7 +184,7 @@ export class Message {
   token: string;
   channel: string;
   text: string;
-  as_user: boolean;
+  as_user?: boolean;
   attachments?: MessageAttachment[];
   reply_broadcast?: boolean;
   thread_ts?: string;
@@ -194,4 +194,94 @@ export class Message {
   icon_emoji?: string;
   icon_url?: string;
   replace_original?: boolean;
+}
+
+export class SlackUser {
+  id: string;
+  team_id: string;
+  name: string;
+  deleted: boolean;
+  color?: string;
+  real_name?: string;
+  tz?: string;
+  tz_label?: string;
+  tz_offset?: number;
+  profile: SlackUserProfile;
+  is_admin?: boolean;
+  is_owner?: boolean;
+  is_primary_owner?: boolean;
+  is_restricted?: boolean;
+  is_ultra_restricted?: boolean;
+  is_bot?: boolean;
+  updated?: number;
+  is_app_user?: boolean;
+  has_2fa?: boolean;
+}
+
+export class SlackUserProfile {
+  avatar_hash?: string;
+  status_text?: string;
+  status_emoji?: string;
+  real_name?: string;
+  display_name?: string;
+  real_name_normalized?: string;
+  display_name_normalized?: string;
+  email?: string;
+  image_24?: string;
+  image_32?: string;
+  image_48?: string;
+  image_72?: string;
+  image_192?: string;
+  image_512?: string;
+  team?: string;
+}
+
+export class GetUserResponse {
+  ok: boolean;
+  user?: SlackUser;
+  error?: string;
+}
+
+export interface ActionPayload {
+  actions?: Action[];
+  callback_id?: string;
+  team?: Team;
+  channel?: Channel;
+  user?: User;
+  action_ts?: string;
+  message_ts?: string;
+  attachment_id?: string;
+  token?: string;
+  original_message?: string;
+  response_url?: string;
+  submission?: Submission;
+  trigger_id?: string;
+}
+
+interface Submission {
+  value?: string;
+
+  [key: string]: string;
+}
+
+interface Team {
+  id?: string;
+  domain?: string;
+}
+
+interface Channel {
+  id?: string;
+  name?: string;
+}
+
+interface User {
+  id?: string;
+  name?: string;
+}
+
+interface Action {
+  name?: string;
+  value?: string;
+  type?: string;
+  selected_options?: MenuMessageOption[];
 }

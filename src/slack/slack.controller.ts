@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpException, HttpStatus, Post, Query, Response } from '@nestjs/common';
-import { SlashCommandPayload } from './models/slack.model';
+import { ActionPayload, SlashCommandPayload } from './models/slack.model';
 import { SlackService } from './slack.service';
 import { ConfigService } from '../shared/services/config.service';
 import { Response as ExpressResponse } from 'express';
@@ -29,5 +29,12 @@ export class SlackController {
     }
 
     return await this._slackService.handleOAuth(code);
+  }
+
+  @Post('action')
+  async actionHandler(@Body('payload') payloadString: string): Promise<any> {
+    const actionPayload: ActionPayload = JSON.parse(payloadString);
+
+    return;
   }
 }
