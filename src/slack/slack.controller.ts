@@ -28,13 +28,17 @@ export class SlackController {
       return res.sendFile(join(__dirname, '../../public/index.html'));
     }
 
-    return await this._slackService.handleOAuth(code);
+    const result = await this._slackService.handleOAuth(code);
+
+    if (result) {
+      return res.sendFile(join(__dirname, '../../public/index.html'));
+    }
   }
 
   @Post('action')
   async actionHandler(@Body('payload') payloadString: string): Promise<any> {
     const actionPayload: ActionPayload = JSON.parse(payloadString);
-
+    console.log(actionPayload);
     return;
   }
 }
