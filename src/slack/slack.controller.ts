@@ -38,7 +38,13 @@ export class SlackController {
   @Post('action')
   async actionHandler(@Body('payload') payloadString: string): Promise<any> {
     const actionPayload: ActionPayload = JSON.parse(payloadString);
-    console.log(actionPayload);
-    return;
+    let result;
+    if (actionPayload.actions[0].value === 'comfort') {
+      result = await this._slackService.handleComfortAction(actionPayload);
+    } else if (actionPayload.actions[0].value === 'in-your-face') {
+      result = await this._slackService.handleInYourFaceAction(actionPayload);
+    }
+
+    return result;
   }
 }
