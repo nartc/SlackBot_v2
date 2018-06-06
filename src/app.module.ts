@@ -8,7 +8,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigService } from './shared/services/config.service';
 
 @Module({
-  imports: [SharedModule, MongooseModule.forRoot(ConfigService.connectionString), NestRoutingModule, SlackModule, MessageModule],
+  imports: [SharedModule, NestRoutingModule, SlackModule, MessageModule],
   controllers: [AppController],
 })
 export class AppModule {
