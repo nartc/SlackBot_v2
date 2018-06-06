@@ -47,4 +47,14 @@ export class SlackController {
 
     return result;
   }
+
+  @Post('mama')
+  async jokeActionHandler(@Body() actionPayload: SlashCommandPayload): Promise<any> {
+    const validateToken: string = process.env.SLACK_VERIFICATION_TOKEN || this._configService.get('SLACK_VERIFICATION_TOKEN');
+    if (actionPayload.token.trim() !== validateToken.trim()) {
+      throw new HttpException('Request not validated', HttpStatus.BAD_REQUEST);
+    }
+
+    return await this._slackService.handleJoke(actionPayload);
+  }
 }

@@ -6,11 +6,11 @@ import { readFileSync } from 'fs';
 export class ConfigService {
   private readonly envConfig: { [prop: string]: string };
 
-  // static connectionString: string;
+  static connectionString: string;
 
   constructor(filePath: string) {
     this.envConfig = parse(readFileSync(filePath));
-    // ConfigService.connectionString = this.get('MONGO_URI');
+    ConfigService.connectionString = this.get('MONGO_URI');
   }
 
   get(key: string): string {
