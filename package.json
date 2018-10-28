@@ -15,7 +15,7 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js",
-    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev --dev",
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev",
     "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
   },
   "dependencies": {
@@ -41,7 +41,10 @@
     "passport-jwt": "4.0.0",
     "reflect-metadata": "0.1.12",
     "rxjs": "6.1.0",
-    "typescript": "2.8.3"
+    "typescript": "2.8.3",
+    "ts-loader": "4.3.0",
+    "ts-node": "6.0.3",
+    "tsconfig-paths": "3.3.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "2.4.1",
