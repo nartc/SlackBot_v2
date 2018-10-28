@@ -57,4 +57,15 @@ export class SlackController {
 
     return await this._slackService.handleJoke(actionPayload);
   }
+
+  @Post('weather')
+  async weatherActionHandler(@Body() actionPayload: SlashCommandPayload): Promise<any> {
+    const validateToken: string = process.env.SLACK_VERIFICATION_TOKEN || this._configService.get('SLACK_VERIFICATION_TOKEN');
+    if (actionPayload.token.trim() !== validateToken.trim()) {
+      throw new HttpException('Request not validated', HttpStatus.BAD_REQUEST);
+    }
+
+    this._slackService.handleWeather(actionPayload);
+    return await this._slackService.sendImmediateResponse(actionPayload.channel_id);
+  }
 }

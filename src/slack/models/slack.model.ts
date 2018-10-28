@@ -120,11 +120,11 @@ class GlobalAttachment {
   text?: string;
   pretext?: string;
   mrkdwn?: boolean;
-  fields?: [{
+  fields?: {
     title?: string;
     value?: string;
     short?: boolean;
-  }];
+  }[];
   ts?: number;
   footer?: string;
   footer_icon?: string;
@@ -133,6 +133,7 @@ class GlobalAttachment {
   author_icon?: string;
   color?: string;
   title?: string;
+  thumb_url?: string;
 }
 
 export class MessageAttachment extends GlobalAttachment {
