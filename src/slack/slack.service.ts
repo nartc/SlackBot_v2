@@ -77,7 +77,12 @@ export class SlackService {
 
   async handleWeather(actionPayload: SlashCommandPayload): Promise<any> {
     const { channel_id, text, response_url } = actionPayload;
-    const zip = Number(text.split(' ')[0]);
+    let zip;
+    if (!text || text.trim() === null) {
+      zip = 63034;
+    } else {
+      zip = Number(text.split(' ')[0]);
+    }
     let message: Message;
     if (isNaN(zip)) {
       message = this.createMessage(channel_id, 'Invalid parameter. Please enter a valid US Zip code');
@@ -100,18 +105,16 @@ export class SlackService {
       color: 'good',
       author_name: 'OpenWeatherMapAPI',
       author_link: 'https://openweathermap.org',
-      text: `Current weather forecast for ${weatherResponse.name}`,
+      text: `Current weather forecast for ${weatherResponse.name}: `,
       fields: [
         {
           title: 'Description',
-          value: `Today is mainly
-          ${weatherResponse.weather[0].main} with
-          ${weatherResponse.main.temp_max}\u00B0F high and ${weatherResponse.main.temp_min}\u00B0F low.`,
+          value: `Today is mainly ${weatherResponse.weather[0].description} with ${weatherResponse.main.temp_max}\u00B0F high and ${weatherResponse.main.temp_min}\u00B0F low.`,
           short: false,
         },
         {
           title: 'Current condition:',
-          value: weatherResponse.weather[0].description,
+          value: weatherResponse.weather[0].main,
           short: true,
         },
         {
