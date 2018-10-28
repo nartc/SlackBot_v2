@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "format": "prettier --write \"**/*.ts\"",
-    "start": "ts-node -r tsconfig-paths/register src/main.ts",
+    "start": "node dist/main.js",
     "start:dev": "concurrently --names \"HMR,NEST\" -c \"bgBlue.bold,bgRed.bold\" --kill-others-on-fail \"npm run webpack\" \"npm run start\"",
     "prestart:prod": "rm -rf dist && tsc",
     "start:prod": "node dist/main.js",
@@ -15,8 +15,9 @@
     "test:cov": "jest --coverage",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "webpack": "webpack --config webpack.config.js",
+    "build": "tsc -p tsconfig.json",
     "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=development; npm install --only=dev",
-    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;"
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production; npm run build"
   },
   "dependencies": {
     "@nestjs/common": "5.0.0",
