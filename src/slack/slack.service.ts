@@ -109,7 +109,7 @@ export class SlackService {
       fields: [
         {
           title: 'Description',
-          value: `Today is mainly ${weatherResponse.weather[0].description} with ${weatherResponse.main.temp_max}\u00B0F high and ${weatherResponse.main.temp_min}\u00B0F low.`,
+          value: `Today has ${weatherResponse.weather[0].description} with ${weatherResponse.main.temp_max}\u00B0F high and ${weatherResponse.main.temp_min}\u00B0F low.`,
           short: false,
         },
         {
